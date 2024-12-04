@@ -38,12 +38,11 @@ function getFirstSunday(year, month) {
 }
 
 /**
- * 
-  Prostsza implementacja.
-  Nadaje się do mniejszych zbiorów danych.
+ * Prostsza implementacja.
+ * Nadaje się do mniejszych zbiorów danych.
  */
-
-  function solution1(expenses) {
+function solution1(expenses) {
+    let result = null;
     let allExpenses = [];
 
     for (const [yearMonth, days] of Object.entries(expenses)) {
@@ -51,24 +50,27 @@ function getFirstSunday(year, month) {
         const firstSunday = getFirstSunday(year, month);
 
         Object.entries(days)
-            .filter(([day]) => parseInt(day, 10) <= firstSunday)
+            .filter(([day]) => parseInt(day, 10) <= firstSunday) 
             .forEach(([, categories]) => {
                 Object.values(categories).forEach(expenseList => {
-                    allExpenses.push(...expenseList);
+                    allExpenses.push(...expenseList); 
                 });
             });
     }
 
-    if (!allExpenses.length) return null;
+    if (!allExpenses.length) return result;
 
     allExpenses.sort((a, b) => a - b);
     const mid = Math.floor(allExpenses.length / 2);
 
-    return allExpenses.length % 2 === 1
-        ? allExpenses[mid]
-        : (allExpenses[mid - 1] + allExpenses[mid]) / 2;
-}
+    if (allExpenses.length % 2 === 1) {
+        result = allExpenses[mid];
+    } else {
+        result = (allExpenses[mid - 1] + allExpenses[mid]) / 2;
+    }
 
+    return result;
+};
 
 /**
  * 
@@ -77,6 +79,9 @@ function getFirstSunday(year, month) {
  */
 
  function solution2(expenses) {
+    let result = null;
+    let allExpenses = [];
+
     function quickSelect(arr, k) {
         const pivot = arr[Math.floor(Math.random() * arr.length)];
         const lows = [], highs = [], pivots = [];
@@ -92,28 +97,32 @@ function getFirstSunday(year, month) {
         return quickSelect(highs, k - lows.length - pivots.length);
     }
 
-    let allExpenses = [];
-
     for (const [yearMonth, days] of Object.entries(expenses)) {
         const [year, month] = yearMonth.split("-").map(Number);
         const firstSunday = getFirstSunday(year, month);
 
         Object.entries(days)
-            .filter(([day]) => parseInt(day, 10) <= firstSunday)
+            .filter(([day]) => parseInt(day, 10) <= firstSunday) 
             .forEach(([, categories]) => {
                 Object.values(categories).forEach(expenseList => {
-                    allExpenses.push(...expenseList);
+                    allExpenses.push(...expenseList); 
                 });
             });
     }
 
-    if (!allExpenses.length) return null;
+    if (!allExpenses.length) return result;
 
     const mid = Math.floor(allExpenses.length / 2);
-    return allExpenses.length % 2 === 1
-        ? quickSelect(allExpenses, mid)
-        : (quickSelect([...allExpenses], mid - 1) + quickSelect([...allExpenses], mid)) / 2;
 
+    if (allExpenses.length % 2 === 1) {
+        result = quickSelect(allExpenses, mid);
+    } else {
+        const left = quickSelect(allExpenses, mid - 1);
+        const right = quickSelect(allExpenses, mid);
+        result = (left + right) / 2;
+    }
+
+    return result;
 }
 
 
