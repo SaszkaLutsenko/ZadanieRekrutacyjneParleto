@@ -1,5 +1,12 @@
 import { getFirstSunday } from "./getFirstSunday";
 
+
+/**
+ * 
+  Prostsza implementacja.
+  Nadaje się do mniejszych zbiorów danych.
+ */
+
 function solution1(expenses) {
     let allExpenses = [];
 

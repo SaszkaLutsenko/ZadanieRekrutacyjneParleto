@@ -1,5 +1,11 @@
 import { getFirstSunday } from "./getFirstSunday";
 
+/**
+ * 
+ Bardziej efektywne dla dużych zbiorów danych.
+ Wymaga więcej przemyśleń i testów, aby obsłużyć wszystkie przypadki.
+ */
+
 function solution2(expenses) {
     function quickSelect(arr, k) {
         const pivot = arr[Math.floor(Math.random() * arr.length)];
